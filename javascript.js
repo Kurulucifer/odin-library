@@ -21,11 +21,17 @@ function addBookToLibrary(title, author, pages, read) {
 }
 
 const bookForm = document.getElementById("form-book");
+const booksContainer = document.getElementById("library");
 
 bookForm.addEventListener("submit", (e) => {
     e.preventDefault();
     submitHandler();
 });
+
+booksContainer.addEventListener("click", (e) => {
+    if (e.target.className === "remove-button")
+        removeBook(e.target.parentElement);
+})
 
 function submitHandler() {
     const bookFormData = new FormData(bookForm);
@@ -37,11 +43,9 @@ function submitHandler() {
     addBookToLibrary(title, author, pages, readStatus);
     const bookEntry = createBookEntry(myLibrary[0]);
     booksContainer.prepend(bookEntry);
-    
+
     bookForm.reset();
 }
-
-const booksContainer = document.getElementById("library");
 
 function createBookEntry(book) {
     const newBookEntry = document.createElement("div");
@@ -80,20 +84,32 @@ function createBookEntry(book) {
     return newBookEntry;
 }
 
-function removeBook() {
-
+function removeBook(bookEntry) {
+    for (const book of myLibrary) {
+        console.log(book.uuid);
+        if (book.uuid === bookEntry.dataset.uuid) {
+            const index = myLibrary.indexOf(book);
+            myLibrary.splice(index, 1);
+        }
+    }
+    bookEntry.remove();
 }
 
-
+// For debugging purposes
+function rebuildLibrary() {
+    const myLibraryCopy = myLibrary.slice().reverse();
+    for (const book of myLibraryCopy) {
+        const bookEntry = createBookEntry(book);
+        booksContainer.prepend(bookEntry);
+    }
+}
 addBookToLibrary("Project: Hail Mary 1", "Andy Weir", 400, "Read");
 addBookToLibrary("Project: Hail Mary 2", "Andy Weir", 400, "Read");
 addBookToLibrary("Project: Hail Mary 3", "Andy Weir", 400, "Read");
 addBookToLibrary("Project: Hail Mary 4", "Andy Weir", 400, "Read");
 addBookToLibrary("Project: Hail Mary 5", "Andy Weir", 400, "Read");
+rebuildLibrary();
 
-
-// addBookToLibrary("Project: Hail Mary", "Andy Weir", 400, "READ");
-// console.log(myLibrary);
 
 
 
