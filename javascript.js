@@ -18,7 +18,6 @@ function Book(title, author, pages, read, uuid) {
 function addBookToLibrary(title, author, pages, read) {
     const newBook = new Book(title, author, pages, read, crypto.randomUUID());
     myLibrary.unshift(newBook);
-    updateVisualLibrary();
 }
 
 const bookForm = document.getElementById("form-book");
@@ -34,20 +33,20 @@ function submitHandler() {
     const author = bookFormData.get("author");
     const pages = bookFormData.get("pages");
     const readStatus = bookFormData.get("read-status");
+
     addBookToLibrary(title, author, pages, readStatus);
+    const bookEntry = createBookEntry(myLibrary[0]);
+    booksContainer.prepend(bookEntry);
+    
     bookForm.reset();
 }
 
 const booksContainer = document.getElementById("library");
 
-function updateVisualLibrary() {
-    const bookEntry = createBookEntry(myLibrary[0]);
-    booksContainer.prepend(bookEntry);
-}
-
 function createBookEntry(book) {
     const newBookEntry = document.createElement("div");
     newBookEntry.className = "book";
+    newBookEntry.dataset.uuid = book.uuid;
 
     const title = document.createElement("div");
     const author = document.createElement("div");
@@ -59,7 +58,7 @@ function createBookEntry(book) {
     author.className = "author";
     pages.className = "pages";
     read.className = "read";
-    uuid.className = "uuid"
+    uuid.className = "uuid";
 
     title.textContent = book.title;
     author.textContent = book.author;
@@ -73,11 +72,24 @@ function createBookEntry(book) {
     newBookEntry.appendChild(read);
     newBookEntry.appendChild(uuid);
 
+    const removeButton = document.createElement("button");
+    removeButton.className = "remove-button";
+    removeButton.textContent = "Remove";
+    newBookEntry.appendChild(removeButton);
+
     return newBookEntry;
 }
 
+function removeBook() {
+
+}
 
 
+addBookToLibrary("Project: Hail Mary 1", "Andy Weir", 400, "Read");
+addBookToLibrary("Project: Hail Mary 2", "Andy Weir", 400, "Read");
+addBookToLibrary("Project: Hail Mary 3", "Andy Weir", 400, "Read");
+addBookToLibrary("Project: Hail Mary 4", "Andy Weir", 400, "Read");
+addBookToLibrary("Project: Hail Mary 5", "Andy Weir", 400, "Read");
 
 
 // addBookToLibrary("Project: Hail Mary", "Andy Weir", 400, "READ");
