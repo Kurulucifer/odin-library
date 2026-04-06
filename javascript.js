@@ -13,6 +13,10 @@ function Book(title, author, pages, read, uuid) {
     this.info = function() {
         return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}, ID: ${this.uuid}`;
     }
+
+    this.toggleRead = function () {
+        this.read = this.read === "Read" ? "Unread" : "Read";
+    }
 }
 
 function addBookToLibrary(title, author, pages, read) {
@@ -31,6 +35,11 @@ bookForm.addEventListener("submit", (e) => {
 booksContainer.addEventListener("click", (e) => {
     if (e.target.className === "remove-button")
         removeBook(e.target.parentElement);
+})
+
+booksContainer.addEventListener("click", (e) => {
+    if (e.target.className === "toggle-read")
+        toggleRead(e.target.parentElement);
 })
 
 function submitHandler() {
@@ -76,6 +85,11 @@ function createBookEntry(book) {
     newBookEntry.appendChild(read);
     newBookEntry.appendChild(uuid);
 
+    const toggleRead = document.createElement("button");
+    toggleRead.className = "toggle-read";
+    toggleRead.textContent = "Toggle Read";
+    newBookEntry.appendChild(toggleRead);
+
     const removeButton = document.createElement("button");
     removeButton.className = "remove-button";
     removeButton.textContent = "Remove";
@@ -86,23 +100,35 @@ function createBookEntry(book) {
 
 function removeBook(bookEntry) {
     for (const book of myLibrary) {
-        console.log(book.uuid);
         if (book.uuid === bookEntry.dataset.uuid) {
             const index = myLibrary.indexOf(book);
             myLibrary.splice(index, 1);
+            break;
         }
     }
+
     bookEntry.remove();
 }
 
+function toggleRead(bookEntry) {
+    for (const book of myLibrary) {
+        if (book.uuid === bookEntry.dataset.uuid) {
+            book.toggleRead();
+            bookEntry.replaceWith(createBookEntry(book));
+            break;
+        }
+    }
+}
+
 // For debugging purposes
-function rebuildLibrary() {
+function rebuildLibrary(bookEntry) {
     const myLibraryCopy = myLibrary.slice().reverse();
     for (const book of myLibraryCopy) {
         const bookEntry = createBookEntry(book);
         booksContainer.prepend(bookEntry);
     }
 }
+
 addBookToLibrary("Project: Hail Mary 1", "Andy Weir", 400, "Read");
 addBookToLibrary("Project: Hail Mary 2", "Andy Weir", 400, "Read");
 addBookToLibrary("Project: Hail Mary 3", "Andy Weir", 400, "Read");
