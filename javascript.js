@@ -26,6 +26,7 @@ function addBookToLibrary(title, author, pages, read) {
 
 const bookForm = document.getElementById("form-book");
 const booksContainer = document.getElementById("library");
+const addBookContainer = document.getElementById("add-book-container");
 
 bookForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -52,6 +53,8 @@ function submitHandler() {
     addBookToLibrary(title, author, pages, readStatus);
     const bookEntry = createBookEntry(myLibrary[0]);
     booksContainer.prepend(bookEntry);
+
+    booksContainer.insertBefore(addBookContainer, booksContainer.firstChild);
 
     bookForm.reset();
 }
@@ -126,6 +129,7 @@ function rebuildLibrary(bookEntry) {
     for (const book of myLibraryCopy) {
         const bookEntry = createBookEntry(book);
         booksContainer.prepend(bookEntry);
+        booksContainer.insertBefore(addBookContainer, booksContainer.firstChild);
     }
 }
 

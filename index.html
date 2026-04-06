@@ -7,9 +7,6 @@
   <title>Library</title>
 </head>
 <body>
-  <div>
-    <button command="show-modal" commandfor="add-book" id="add-book-button">Add Book</button>
-  </div>
   <dialog id="add-book">
     <div>This is for adding a new book!</div>
     <form action="" id="form-book">
@@ -34,6 +31,9 @@
     <button commandfor="add-book" command="close">Close</button>
   </dialog>
   <div class="books-container" id="library">
+    <div class="book" id="add-book-container">
+      <button command="show-modal" commandfor="add-book" id="add-book-button">Add Book</button>
+    </div>
   </div>
   <script src="javascript.js"></script>
 </body>
