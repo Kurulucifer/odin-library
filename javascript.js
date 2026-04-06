@@ -17,10 +17,12 @@ function Book(title, author, pages, read, uuid) {
 
 function addBookToLibrary(title, author, pages, read) {
     const newBook = new Book(title, author, pages, read, crypto.randomUUID());
-    myLibrary.push(newBook);
+    myLibrary.unshift(newBook);
+    updateVisualLibrary();
 }
 
 const bookForm = document.getElementById("form-book");
+
 bookForm.addEventListener("submit", (e) => {
     e.preventDefault();
     submitHandler();
@@ -35,6 +37,46 @@ function submitHandler() {
     addBookToLibrary(title, author, pages, readStatus);
     bookForm.reset();
 }
+
+const booksContainer = document.getElementById("library");
+
+function updateVisualLibrary() {
+    const bookEntry = createBookEntry(myLibrary[0]);
+    booksContainer.prepend(bookEntry);
+}
+
+function createBookEntry(book) {
+    const newBookEntry = document.createElement("div");
+    newBookEntry.className = "book";
+
+    const title = document.createElement("div");
+    const author = document.createElement("div");
+    const pages = document.createElement("div");
+    const read = document.createElement("div");
+    const uuid = document.createElement("div");
+
+    title.className = "title";
+    author.className = "author";
+    pages.className = "pages";
+    read.className = "read";
+    uuid.className = "uuid"
+
+    title.textContent = book.title;
+    author.textContent = book.author;
+    pages.textContent = book.pages;
+    read.textContent = book.read;
+    uuid.textContent = book.uuid;
+
+    newBookEntry.appendChild(title);
+    newBookEntry.appendChild(author);
+    newBookEntry.appendChild(pages);
+    newBookEntry.appendChild(read);
+    newBookEntry.appendChild(uuid);
+
+    return newBookEntry;
+}
+
+
 
 
 
