@@ -35,12 +35,12 @@ bookForm.addEventListener("submit", (e) => {
 
 booksContainer.addEventListener("click", (e) => {
     if (e.target.className === "remove-button")
-        removeBook(e.target.parentElement);
+        removeBook(e.target.parentElement.parentElement);
 })
 
 booksContainer.addEventListener("click", (e) => {
     if (e.target.className === "toggle-read")
-        toggleRead(e.target.parentElement);
+        toggleRead(e.target.parentElement.parentElement);
 })
 
 function submitHandler() {
@@ -77,8 +77,8 @@ function createBookEntry(book) {
     uuid.className = "uuid";
 
     title.textContent = book.title;
-    author.textContent = book.author;
-    pages.textContent = book.pages;
+    author.textContent = `by ${book.author}`;
+    pages.textContent = `${book.pages} pages`;
     read.textContent = book.read;
     uuid.textContent = book.uuid;
 
@@ -88,15 +88,19 @@ function createBookEntry(book) {
     newBookEntry.appendChild(read);
     newBookEntry.appendChild(uuid);
 
+    const buttonContainer = document.createElement("div");
+    buttonContainer.className = "button-container";
+    newBookEntry.appendChild(buttonContainer);
+
     const toggleRead = document.createElement("button");
     toggleRead.className = "toggle-read";
     toggleRead.textContent = "Toggle Read";
-    newBookEntry.appendChild(toggleRead);
+    buttonContainer.appendChild(toggleRead);
 
     const removeButton = document.createElement("button");
     removeButton.className = "remove-button";
     removeButton.textContent = "Remove";
-    newBookEntry.appendChild(removeButton);
+    buttonContainer.appendChild(removeButton);
 
     return newBookEntry;
 }
@@ -133,11 +137,7 @@ function rebuildLibrary(bookEntry) {
     }
 }
 
-addBookToLibrary("Project: Hail Mary 1", "Andy Weir", 400, "Read");
-addBookToLibrary("Project: Hail Mary 2", "Andy Weir", 400, "Read");
-addBookToLibrary("Project: Hail Mary 3", "Andy Weir", 400, "Read");
-addBookToLibrary("Project: Hail Mary 4", "Andy Weir", 400, "Read");
-addBookToLibrary("Project: Hail Mary 5", "Andy Weir", 400, "Read");
+addBookToLibrary("Project: Hail Mary", "Andy Weir", 496, "Read");
 rebuildLibrary();
 
 
