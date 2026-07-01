@@ -41,14 +41,10 @@
         </div>
         <div class="form-row">
           <label for="read-status">Read Status</label>
-          <input
-            type="text"
-            id="read-status"
-            name="read-status"
-            placeholder="Read/Unread"
-            pattern="Read|Unread"
-            required
-          />
+          <select name="read-status" id="read-status" required>
+            <option value="Unread">Unread</option>
+            <option value="Read">Read</option>
+          </select>
         </div>
         <button type="submit" class="form-submit">Submit</button>
       </form>
