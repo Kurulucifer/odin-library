@@ -27,20 +27,72 @@ const bookForm = document.getElementById("form-book");
 const booksContainer = document.getElementById("library");
 const addBookContainer = document.getElementById("add-book-container");
 
-bookForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  submitHandler();
-});
+addContainerListeners();
+addInputListeners();
+addBookToLibrary("Project: Hail Mary", "Andy Weir", 496, "Read");
+rebuildLibrary();
 
-booksContainer.addEventListener("click", (e) => {
-  if (e.target.className === "remove-button")
-    removeBook(e.target.parentElement.parentElement);
-});
+function addContainerListeners() {
+  bookForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (bookForm.checkValidity()) {
+      submitHandler();
+    } else {
+      for (const input of bookForm.querySelectorAll("input")) {
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+    }
+  });
 
-booksContainer.addEventListener("click", (e) => {
-  if (e.target.className === "toggle-read")
-    toggleRead(e.target.parentElement.parentElement);
-});
+  booksContainer.addEventListener("click", (e) => {
+    if (e.target.className === "remove-button")
+      removeBook(e.target.parentElement.parentElement);
+  });
+
+  booksContainer.addEventListener("click", (e) => {
+    if (e.target.className === "toggle-read")
+      toggleRead(e.target.parentElement.parentElement);
+  });
+}
+
+function addInputListeners() {
+  const title = document.getElementById("title");
+  const author = document.getElementById("author");
+  const pages = document.getElementById("pages");
+
+  title.addEventListener("input", () => {
+    const titleError = title.nextElementSibling;
+    if (title.validity.valid) {
+      titleError.textContent = "";
+      titleError.classList.remove("active");
+    } else {
+      titleError.textContent = "You must input a title.";
+      titleError.classList.add("active");
+    }
+  });
+
+  author.addEventListener("input", () => {
+    const authorError = author.nextElementSibling;
+    if (author.validity.valid) {
+      authorError.textContent = "";
+      authorError.classList.remove("active");
+    } else {
+      authorError.textContent = "You must input an author.";
+      authorError.classList.add("active");
+    }
+  });
+
+  pages.addEventListener("input", () => {
+    const pagesError = pages.nextElementSibling;
+    if (pages.validity.valid) {
+      pagesError.textContent = "";
+      pagesError.classList.remove("active");
+    } else {
+      pagesError.textContent = "You must input the total number of pages.";
+      pagesError.classList.add("active");
+    }
+  });
+}
 
 function submitHandler() {
   const bookFormData = new FormData(bookForm);
@@ -135,6 +187,3 @@ function rebuildLibrary(bookEntry) {
     booksContainer.insertBefore(addBookContainer, booksContainer.firstChild);
   }
 }
-
-addBookToLibrary("Project: Hail Mary", "Andy Weir", 496, "Read");
-rebuildLibrary();

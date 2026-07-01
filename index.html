@@ -8,7 +8,7 @@
   </head>
   <body>
     <dialog id="add-book">
-      <form action="" id="form-book">
+      <form action="" id="form-book" novalidate>
         <div class="form-row">
           <label for="title">Title</label>
           <input
@@ -16,8 +16,10 @@
             id="title"
             name="title"
             placeholder="Lord of the Blings"
+            minlength="1"
             required
           />
+          <span class="error" aria-live="polite"></span>
         </div>
         <div class="form-row">
           <label for="author">Author</label>
@@ -26,8 +28,10 @@
             id="author"
             name="author"
             placeholder="Aut Hor"
+            minlength="1"
             required
           />
+          <span class="error" aria-live="polite"></span>
         </div>
         <div class="form-row">
           <label for="pages">Pages</label>
@@ -36,8 +40,10 @@
             id="pages"
             name="pages"
             placeholder="123"
+            min="1"
             required
           />
+          <span class="error" aria-live="polite"></span>
         </div>
         <div class="form-row">
           <label for="read-status">Read Status</label>

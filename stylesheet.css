@@ -92,3 +92,30 @@ button {
 .book > .button-container > button {
   padding: 0 1rem;
 }
+
+input {
+  border: 2px solid black;
+  outline: none;
+}
+
+input:invalid {
+  background-color: #ffdddd;
+  border-color: #990000;
+}
+
+input:focus:invalid {
+  border: 2px solid #990000;
+}
+
+.error {
+  box-sizing: border-box;
+  background-color: #990000;
+  font-size: 0.9rem;
+  color: white;
+  padding: 0;
+  border-bottom-left-radius: 8px;
+}
+
+.error.active {
+  padding: 0.3rem;
+}
